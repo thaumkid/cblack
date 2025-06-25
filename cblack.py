@@ -3,7 +3,7 @@
 import re
 import sys
 
-__version__ = "22.6.0"
+__version__ = "22.12.0"
 
 import sys
 from os.path import isdir
@@ -40,11 +40,11 @@ class CBlackModuleLoader(type(_real_pathfinder)):
   _black_local_folder = "/black/"
 
   @classmethod
-  def find_module(cls, fullname, path=None):
-    """ """
-    spec = _real_pathfinder.find_spec(fullname, path)
+  def find_spec(cls, fullname, path=None, target=None):
+    spec = _real_pathfinder.find_spec(fullname, path, target)
     if (
       spec
+      and spec.origin
       and (
         (CBlackModuleLoader._black_folder in spec.origin)
         or (CBlackModuleLoader._black_local_folder in spec.origin)
@@ -61,9 +61,7 @@ class CBlackModuleLoader(type(_real_pathfinder)):
       # load & replace the spec from the python file
       spec = importlib.util.spec_from_file_location(spec.name, location)
 
-    if not spec:
-      return spec
-    return spec.loader
+    return spec
 
 
 # Replace the real module loader by our own
@@ -74,17 +72,15 @@ try:
   import black.linegen as black_line
   from black import main as black_main
 except ImportError:
-  print("Cannot import black. Have you installed black v%s?" % __version__)
+  print(f"Cannot import black. Have you installed black v{__version__}?")
 
-_orgLineStr = black_line.Line.__str__
-_orgFixDocString = black_str.fix_docstring
+# Save original methods
+_orig_line_str = black_line.Line.__str__
+from black.strings import fix_docstring as _orig_fix_docstring
 
-
-def lineStrIndentTwoSpaces(self) -> str:
-  """Intended to replace Line.__str__ to produce 2-space indentation blocks
-  instead of the 4 by default.
-  """
-  original = _orgLineStr(self)
+# Patch for 2-space indentation
+def line_str_indent_two_spaces(self) -> str:
+  original = _orig_line_str(self)
   if not original.startswith(" "):
     return original
 
@@ -92,23 +88,22 @@ def lineStrIndentTwoSpaces(self) -> str:
   nLeadingSpaces = len(original) - len(noLeftSpaces)
 
   # reindent by generating half the spaces (from 4-space blocks to 2-space blocks)
-  reindented = "%s%s" % (" " * (nLeadingSpaces >> 1), noLeftSpaces)
-  return reindented
+  return " " * (nLeadingSpaces >> 1) + noLeftSpaces
 
 
-def fixDocString(docstring, prefix):
+def patched_fix_docstring(docstring: str, prefix: str) -> str:
   """Indent doc strings by 2 spaces instead of 4"""
-  return _orgFixDocString(docstring, " " * (len(prefix) >> 1))
+  return _orig_fix_docstring(docstring, " " * (len(prefix) >> 1))
 
 
-# Patch original black formatter function
-black_line.Line.__str__ = lineStrIndentTwoSpaces
-black_line.fix_docstring = fixDocString
-black_str.fix_docstring = fixDocString
+# Apply monkeypatches
+black_line.Line.__str__ = line_str_indent_two_spaces
+black_line.fix_docstring = patched_fix_docstring
+black_str.fix_docstring = patched_fix_docstring
 
 
 def main():
-  # behabe like normal black code
+  # behave like normal black code
   sys.argv[0] = re.sub(r"(-script\.pyw?|\.exe)?$", "", sys.argv[0])
   sys.exit(black_main())
 

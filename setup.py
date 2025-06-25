@@ -4,7 +4,7 @@ import re
 from setuptools import setup
 import sys
 
-assert sys.version_info >= (3, 7, 0), "cblack requires Python 3.7+"
+assert sys.version_info >= (3, 10, 0), "cblack requires Python 3.10+"
 from pathlib import Path  # noqa E402
 
 CURRENT_DIR = Path(__file__).parent
@@ -39,9 +39,9 @@ setup(
     py_modules=["cblack"],
     packages=[],
     package_data={},
-    python_requires=">=3.7.0",
+    python_requires=">=3.10.0",
     zip_safe=False,
-    install_requires=["black==22.6.0"],
+    install_requires=["black==22.12.0"],
     extras_require={},
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -50,10 +50,9 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3 :: Only",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Software Development :: Quality Assurance",
