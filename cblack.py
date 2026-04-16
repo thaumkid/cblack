@@ -32,7 +32,8 @@ class CBlackModuleLoader(type(_real_pathfinder)):
   """
 
   # all "black" folders contain the substring "/black-<version>"
-  # (e.g "/usr/local/lib/python3.8/site-packages/black-22.3.0-py3.8-linux-x86_64.egg")
+  # (e.g. "/usr/local/lib/python3.14/site-packages/black-26.3.1-py3.14-linux-x86_64.egg")
+  # (e.g. "/opt/local/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/black")
   _black_folder = "/black-%s" % __version__
 
   # local installation of black folder don't necessarily need to contain the
