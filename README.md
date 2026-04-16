@@ -6,7 +6,7 @@ Same rules as Black, only with two-space indents.
 
 ## Installation
 
-*cblack* can be installed by running `pip3 install cblack`.
+*cblack* can be installed downloading this project and then running `python -m pip install path/to/cblack`.
 
 It requires Python 3.10+ to run but you can reformat Python 2 and Python 3.x code
 as well (although you should run cblack with a Python 3.10+ interpreter).
