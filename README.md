@@ -8,11 +8,8 @@ Same rules as Black, only with two-space indents.
 
 *cblack* can be installed by running `pip3 install cblack`.
 
-It requires Python 3.7+ to run but you can reformat Python 2 and Python 3.x code
-as well (although you should run cblack with a Python 3.7+ interpreter).
-
-NOTE: Running cblack with Python 3.6 is no longer supported since black itself
-is failing as well.
+It requires Python 3.10+ to run but you can reformat Python 2 and Python 3.x code
+as well (although you should run cblack with a Python 3.10+ interpreter).
 
 ## Usage
 
@@ -41,7 +38,7 @@ otherwise, if it was possible to do it, I would not have created this project.
 
 ## How
 
-I'm a busy man. I don't want to spend my time pulling latest changes from black
+I don't want to spend my time pulling latest changes from black
 regularly, so I've created a small package that depends on black and overrides
 a method to reindent using two spaces. Shall black developers break this behaviour
 I might end up cloning the whole project. But the aim of this project
