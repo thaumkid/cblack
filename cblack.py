@@ -77,7 +77,7 @@ except ImportError:
 
 # Save original methods
 _orig_line_str = black_line.Line.__str__
-from black.strings import fix_docstring as _orig_fix_docstring
+from black.strings import fix_multiline_docstring as _orig_fix_docstring
 
 # Patch for 2-space indentation
 def line_str_indent_two_spaces(self) -> str:
@@ -99,8 +99,8 @@ def patched_fix_docstring(docstring: str, prefix: str) -> str:
 
 # Apply monkeypatches
 black_line.Line.__str__ = line_str_indent_two_spaces
-black_line.fix_docstring = patched_fix_docstring
-black_str.fix_docstring = patched_fix_docstring
+black_line.fix_multiline_docstring = patched_fix_docstring
+black_str.fix_multiline_docstring = patched_fix_docstring
 
 
 def main():
