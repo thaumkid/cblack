@@ -1,4 +1,4 @@
-""" This file will be used as a test. We will run cblack on this file and
+"""This file will be used as a test. We will run cblack on this file and
 compare against expected.py file. If they match, we are good. If not, we have
 to see if the change is produced by a change in black behaviour and thus, update
 expected.py or the difference is due to a bug in our code.
@@ -12,7 +12,6 @@ from x import (
   b,
   c,
 )
-
 
 A_GLOBAL_SET = {
   # a comment
@@ -29,7 +28,7 @@ def lookAtThisMethod(
   second_paramter=None,
   third_parameter=32,
   fourth_parameter="a short string as default argument",
-  **kwargs
+  **kwargs,
 ):
   """The point of this is see how it reformats parameters
 
